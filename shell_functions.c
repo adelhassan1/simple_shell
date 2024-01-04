@@ -1,27 +1,29 @@
 #include "main.h"
 
 /**
- * _getline - getline function
+ * read_line - getline function
  * 
- * @lineptr: pointer to the line.
- * @n: size of buffer.
- * 
- * Return: on success return the number of characters read,
- * -1 on failure.
+ * Return: 0 on success, -1 on failure.
 */
 
-int _getline(char *lineptr, size_t n)
+char *read_line(void)
 {
+	size_t n = 0;
+	char *lineptr = NULL;
+	size_t line;
 
-	printf("#cisfun$ ");
-	getline(&lineptr, &n, stdin);
+	line = getline(&lineptr, &n, stdin);
 
-	free(lineptr);
-	return (0);
+	if (line == -1)
+	{
+		free(lineptr);
+	}
+
+	return (lineptr);
 }
 
 /**
- * _exec - execve function
+ * my_exec - execve function
  *
  * @pathname: Pathname to the executable
  * @argv: Array of arguments
@@ -30,7 +32,7 @@ int _getline(char *lineptr, size_t n)
  * Return: on success does not return, -1 on failure.
 */
 
-int _exec(const char *pathname, char *const argv[], char *const envp[])
+int my_exec(const char *pathname, char *const argv[], char *const envp[])
 {
     if(execve(pathname, argv, envp) == -1)
     {
