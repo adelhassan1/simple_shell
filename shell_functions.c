@@ -10,7 +10,7 @@ char *read_line(void)
 {
 	size_t n = 0;
 	char *lineptr = NULL;
-	size_t line;
+	ssize_t line;
 
 	line = getline(&lineptr, &n, stdin);
 
@@ -36,7 +36,7 @@ int my_exec(const char *pathname, char *const argv[], char *const envp[])
 {
     if(execve(pathname, argv, envp) == -1)
     {
-        perror("./shell:");
+        perror("./shell");
         return (-1);
     }
     return (0);
@@ -52,16 +52,45 @@ int my_exec(const char *pathname, char *const argv[], char *const envp[])
  * Return: a pointer to the next token,
  * or NULL if there are no more tokens.
 */
-int _strtok(char *str, char *delim)
-{
-	char *token = strtok(str, delim);
 
-	while (token)
+
+char **_strtok(char *str)
+{
+	char **tokens = malloc(MAX_TOKENS * sizeof(char *));
+	if (tokens == NULL)
+		return (NULL);
+
+	int token_count = 0;
+	char *token = strtok(str, " ");
+
+
+	while (token && token_count < MAX_TOKENS)
 	{
-		printf("%s\n", token);
-		token = strtok(NULL, delim);
-	}
+		tokens[token_count] = malloc((_strlen(token) + 1) * sizeof(char));
+		if (tokens[token_count] == NULL)
+			return (NULL);
 	
-	return (0);
+		_strcpy(tokens[token_count], token);
+		token_count++;
+		token = strtok(NULL, " ");  
+	}
+
+	tokens[token_count] = NULL;
+	return (tokens);
 
 }
+
+// int main(void)
+// {
+	
+// 	char str[] = "adel ibrahem hassan.";
+// 	char **final = _strtok(str);
+
+// 	if (final)
+// 		{
+// 			for (int i = 0; final[i]; i++)
+// 				free(final[i]);
+// 			free(final);
+// 		}
+// 	return (0);
+// }
