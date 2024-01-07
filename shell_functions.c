@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * read_line - getline function
@@ -32,11 +32,13 @@ char *read_line(void)
  * Return: on success does not return, -1 on failure.
 */
 
+
+
 int my_exec(const char *pathname, char *const argv[], char *const envp[])
 {
     if(execve(pathname, argv, envp) == -1)
     {
-        perror("./shell");
+		perror("./shell");
         return (-1);
     }
     return (0);
@@ -54,7 +56,7 @@ int my_exec(const char *pathname, char *const argv[], char *const envp[])
 */
 
 
-char **_strtok(char *str)
+char **pars_args(char *str)
 {
 	char **tokens = malloc(MAX_TOKENS * sizeof(char *));
 	if (tokens == NULL)
@@ -79,18 +81,3 @@ char **_strtok(char *str)
 	return (tokens);
 
 }
-
-// int main(void)
-// {
-	
-// 	char str[] = "adel ibrahem hassan.";
-// 	char **final = _strtok(str);
-
-// 	if (final)
-// 		{
-// 			for (int i = 0; final[i]; i++)
-// 				free(final[i]);
-// 			free(final);
-// 		}
-// 	return (0);
-// }

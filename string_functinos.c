@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * _strcpy - copy
  * @dest: par 1
@@ -22,4 +22,20 @@ char *_strcpy(char *dest, char *src)
 		i++;
 	}
 	return (dest);
+}
+
+/**
+ * _strlen - lenght
+ * @s: par
+ * Return: lenght
+ */
+
+int _strlen(char *s)
+{
+	int len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }
