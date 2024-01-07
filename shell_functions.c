@@ -14,11 +14,6 @@ char *read_line(void)
 
 	line = getline(&lineptr, &n, stdin);
 
-	if (line == -1)
-	{
-		free(lineptr);
-	}
-
 	return (lineptr);
 }
 
@@ -36,11 +31,17 @@ char *read_line(void)
 
 int my_exec(const char *pathname, char *const argv[], char *const envp[])
 {
-    if(execve(pathname, argv, envp) == -1)
-    {
+	if (execvp(pathname, argv) == -1)
+	{
 		perror("./shell");
-        return (-1);
-    }
+		return (-1);
+	}
+
+    // if(execve(pathname, argv, envp) == -1)
+    // {
+	// 	perror("./shell");
+    //     return (-1);
+    // }
     return (0);
 
 }
