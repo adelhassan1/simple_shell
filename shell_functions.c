@@ -8,75 +8,151 @@
 
 char *read_line(void)
 {
-	size_t n = 0;
+	size_t bufsize = 0;
 	char *lineptr = NULL;
-	ssize_t line;
 
-	line = getline(&lineptr, &n, stdin);
-
+	if ((getline(&lineptr, &bufsize, stdin)) == -1)
+	{
+		if (feof(stdin))
+		{
+			free(lineptr);
+			exit(EXIT_SUCCESS);
+		}else
+		{
+			perror("error while reading the line from stdin");
+			exit(EXIT_FAILURE);
+		}
+	}
 	return (lineptr);
 }
 
 /**
- * my_exec - execve function
+ * read_stream - read a line from the stream
  *
- * @pathname: Pathname to the executable
- * @argv: Array of arguments
- * @envp: Array of environment variables
+ * Return: pointer that points the the read line
+ */
+
+char *read_stream(void)
+{
+    int bufsize = 1024;
+    int i, character;
+    char *line = malloc((bufsize + 1) * sizeof(char));
+
+    if (!line)
+    {
+        perror("error in allocation");
+        exit(EXIT_FAILURE);
+    }
+
+    while(1)
+    {
+        character = getchar();
+        if (character == EOF)
+        {
+            free(line);
+            exit(EXIT_SUCCESS);
+        }else if (character == '\n')
+        {
+            line[i] = '\0';
+            return (line);
+        }else
+        {
+            line[i] = character;
+        }
+        i++;
+        if (i >= bufsize)
+        {
+            bufsize += bufsize;
+			line = realloc(line, bufsize);
+			if (line == NULL)
+			{
+				perror("reallocation error in read_stream");
+				exit(EXIT_FAILURE);
+        	}
+		}
+    }
+}
+
+/**
+ * new_process - create a new process.
  * 
- * Return: on success does not return, -1 on failure.
+ * @args: array of strings that contains the command and its flags
+ *
+ * Return: 1 if success, 0 otherwise.
 */
 
 
 
-int my_exec(const char *pathname, char *const argv[], char *const envp[])
+int new_process(char **args)
 {
-	if (execvp(pathname, argv) == -1)
+	pid_t pid;
+    int status;
+	pid = fork();
+	if (pid == 0)
 	{
-		perror("./shell");
-		return (-1);
+		if(execve(args[0], args, NULL) == -1)
+		{
+			perror("error in new_process: child process");
+		}
+		exit(EXIT_FAILURE);
+	}else if (pid < 0)
+	{
+		perror("error in new_process: fork");
+	}else
+	{
+		do
+		{
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
-    // if(execve(pathname, argv, envp) == -1)
-    // {
-	// 	perror("./shell");
-    //     return (-1);
-    // }
-    return (0);
+    return (-1);
 
 }
 
 /**
- * _strtok - spliting string with strtok
+ * parse_string - spliting string with strtok
  * 
- * @str: string to be split.
- * @delim: the delimeter.
+ * @line: string from read_line to be split.
  * 
  * Return: a pointer to the next token,
  * or NULL if there are no more tokens.
 */
 
 
-char **pars_args(char *str)
+char **parse_string(char *line)
 {
-	char **tokens = malloc(MAX_TOKENS * sizeof(char *));
-	if (tokens == NULL)
-		return (NULL);
-
 	int token_count = 0;
-	char *token = strtok(str, " ");
+	int bufsize = 64;
+	char **tokens = malloc(bufsize * sizeof(char *));
+	char *token;
 
-
-	while (token && token_count < MAX_TOKENS)
+	if (tokens == NULL)
 	{
-		tokens[token_count] = malloc((_strlen(token) + 1) * sizeof(char));
-		if (tokens[token_count] == NULL)
-			return (NULL);
-	
-		_strcpy(tokens[token_count], token);
-		token_count++;
-		token = strtok(NULL, " ");  
+		perror("error while spliting line");
+		exit(EXIT_FAILURE);
 	}
+	token = strtok(line, DELIM);
+
+	while (token)
+	{
+		if (token[0] == '#')
+			break;
+		tokens[token_count] = token;
+		token_count++;
+		if (token_count >= bufsize)
+		{
+			bufsize += bufsize;
+			tokens = realloc(tokens, bufsize * sizeof(char *));
+			if (!tokens)
+			{
+				perror("reallocation error in split_line: tokens");
+				exit(EXIT_FAILURE);
+			}
+		}
+		token = strtok(NULL, DELIM);  
+	}
+
 
 	tokens[token_count] = NULL;
 	return (tokens);
