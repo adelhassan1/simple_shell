@@ -23,10 +23,7 @@ int new_process(char **args);
 
 int main(void);
 
-// int own_cd(char **);
-// int own_help(char **);
-int own_exit(char **);
-// int own_env(char **);
+int own_exit(char **args);
 
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);

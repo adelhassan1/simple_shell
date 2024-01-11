@@ -25,12 +25,6 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * _strlen - lenght
- * @s: par
- * Return: lenght
- */
-
-/**
  * _strcmp - compartion
  * @s1: str1
  * @s2: str2
@@ -47,6 +41,12 @@ int _strcmp(char *s1, char *s2)
 
 	return (*s1 - *s2);
 }
+
+/**
+ * _strlen - lenght
+ * @s: par
+ * Return: lenght
+ */
 
 int _strlen(char *s)
 {

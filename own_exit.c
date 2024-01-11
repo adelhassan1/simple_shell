@@ -1,19 +1,21 @@
 #include "shell.h"
 
 /**
- * own_exit - couses normal process termination
- * @args: empty args
+ * own_exit - Exit the shell
+ * @args: Command and its flags
  *
- * Return: 0 to terminate the process
+ * Return: 1 on success, 0 otherwise
  */
 
 int own_exit(char **args)
 {
-    if (args[1])
-    {
-        return (_atoi(args[1]));
-    } else
-    {
-        return (0);
-    }
+	if (args[1])
+	{
+		return (_atoi(args[1]));
+	}
+	else
+	{
+		return (0);
+	}
 }
+
