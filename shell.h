@@ -22,6 +22,13 @@ char **parse_string(char *line);
 int execute_args(char **args);
 
 int new_process(char **args);
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+*/
 
 int own_cd(char **args);
 int own_env(char **args);
