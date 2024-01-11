@@ -94,7 +94,7 @@ int new_process(char **args)
 	{
 		if (execve(args[0], args, NULL) == -1)
 		{
-			perror("error in new_process: child process");
+			perror("./shell");
 		}
 		exit(EXIT_FAILURE);
 	} else if (pid < 0)
