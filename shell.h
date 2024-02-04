@@ -13,28 +13,15 @@ extern char **environ;
 
 void shell_interactive(void);
 void shell_no_interactive(void);
-
-int main(void);
-
 char *read_line(void);
 char *read_stream(void);
 char **parse_string(char *line);
 int execute_args(char **args);
-
 int new_process(char **args);
-/**
- * 
- * 
- * 
- * 
- * 
-*/
-
 int own_cd(char **args);
 int own_env(char **args);
 int own_help(char **args);
 int own_exit(char **args);
-
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
