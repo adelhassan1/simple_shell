@@ -21,7 +21,7 @@ int execute_args(char **args)
 		&own_help,
 		&own_exit
 	};
-	int i;
+	unsigned long int i;
 
 	if (!args)
 		return (-1);
