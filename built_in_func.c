@@ -91,4 +91,5 @@ int own_exit(char **args)
 	{
 		return (0);
 	}
+	return (1);
 }
