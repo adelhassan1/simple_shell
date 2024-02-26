@@ -84,7 +84,7 @@ int own_exit(char **args)
 	}
 	else
 	{
-		return (0);
+		exit(2);
 	}
 }
 
