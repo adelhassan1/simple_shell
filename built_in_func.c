@@ -56,7 +56,7 @@ int own_help(char **args)
 		"help",
 		"exit"
 	};
-	long unsigned int i = 0;
+	unsigned long int i = 0;
 	(void)(**args);
 
 	printf("\n---help simple_shell---\n");
