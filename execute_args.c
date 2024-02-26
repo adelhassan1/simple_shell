@@ -25,7 +25,7 @@ int execute_args(char **args)
 
 	if (!args[0])
 		return (-1);
-	for (; i < sizeof(builtin_func_list) / sizeof(char *); i++)
+	for (i = 0; i < sizeof(builtin_func_list) / sizeof(char *); i++)
 	{
 		if (_strcmp(args[0], builtin_func_list[i]) == 0)
 			return ((*builtin_func[i])(args));
