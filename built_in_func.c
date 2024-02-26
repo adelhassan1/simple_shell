@@ -54,8 +54,7 @@ int own_help(char **args)
 		"cd",
 		"env",
 		"help",
-		"exit"
-	};
+		"exit"};
 	unsigned long int i = 0;
 	(void)(**args);
 
@@ -80,11 +79,16 @@ int own_exit(char **args)
 {
 	if (args[1])
 	{
-		return (_atoi(args[1]));
+		int exit_status = _atoi(args[1]);
+
+		if (exit_status == 0 && args[1][0] != '0')
+		{
+			fprintf(stderr, "hsh: exit: %s: numeric argument required\n", args[1]);
+			return (2);
+		}
 	}
 	else
 	{
-		return (2);
+		return (0);
 	}
 }
-
