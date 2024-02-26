@@ -19,6 +19,7 @@ char *read_line(void)
 			exit(EXIT_SUCCESS);
 		} else
 		{
+			free(lineptr);
 			perror("error while reading the line from stdin");
 			exit(EXIT_FAILURE);
 		}
@@ -35,8 +36,8 @@ char *read_line(void)
 char *read_stream(void)
 {
 	int bufsize = 1024;
-	int i, character;
-	char *line = malloc((bufsize + 1) * sizeof(char));
+	int i = 0, character;
+	char *line = malloc(bufsize * sizeof(char));
 
 	if (!line)
 	{
@@ -133,7 +134,6 @@ char **parse_string(char *line)
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, DELIM);
-
 	while (token)
 	{
 		if (token[0] == '#')

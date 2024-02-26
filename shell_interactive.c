@@ -21,6 +21,6 @@ void shell_interactive(void)
 		free(args);
 
 		if (status >= 0)
-		exit(status);
+			exit(status);
 	} while (status == -1);
 }

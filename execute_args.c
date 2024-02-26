@@ -23,11 +23,11 @@ int execute_args(char **args)
 	};
 	unsigned long int i;
 
-	if (!args)
+	if (!args[0])
 		return (-1);
 	for (; i < sizeof(builtin_func_list) / sizeof(char *); i++)
 	{
-		if (_strcmp(args[0], builtin_func_list[i]))
+		if (_strcmp(args[0], builtin_func_list[i]) == 0)
 			return ((*builtin_func[i])(args));
 	}
 	return (new_process(args));
